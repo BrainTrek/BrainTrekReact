@@ -10,10 +10,10 @@ const SignInForm = () => {
         <br />
         <input type="password" className="form-input" placeholder="Password" />
         <br />
-        <button type="submit" className="signin-button">Sign In</button>
+        <button type="submit" className="signin-button">SIGN IN</button>
         <br />
         <h4>OR</h4>
-        <h3>Sign In with your...</h3>
+        <h4 className='signuse'>Sign In with your...</h4>
         <div className="social-icons">
           <SocialIcon iconClass="fa-brands fa-google" text="Google" />
           <SocialIcon iconClass="fa-solid fa-envelope" text="Gmail" />

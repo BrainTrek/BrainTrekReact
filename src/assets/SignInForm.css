@@ -42,9 +42,7 @@
     font-size:medium;
 
 }
-h1 {
-    color: red;
-}
+
 .social-icons {
     margin-top: 20px;
     display: flex;
@@ -62,4 +60,7 @@ h1 {
     margin-bottom: 5px;
     color: #007bff;
     cursor: pointer;
+}
+.signuse{
+    color: black;
 }

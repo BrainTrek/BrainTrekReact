@@ -6,17 +6,24 @@ import SignUpForm from './components/SignUpForm';
 import './assets/style.css';
 import './assets/header.css';
 import './assets/SignInForm.css';
+import './assets/SignUpForm.css';
 
 function App() {
   return (
-    <div className="container">
+   
       <Routes>
-        <Route path="/" element={<Header />} />
-        <Route path="/" element={<SignInForm />} />
-          <Route path="/SignUpForm" element={<SignUpForm />} />
+        <Route path="/" element={
+        <div className="container">
+        <Header />
+        <SignInForm />
+        </div>
+        } />
+        <Route path="/SignUpForm" element={<SignUpForm />} />
       </Routes>
-      <SignInForm/>
-    </div>
+    
+
+
+    
   );
 }
 

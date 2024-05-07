@@ -1,0 +1,12 @@
+.heading{
+    color: black;
+}
+.left-partition {
+    flex: 1;
+    background-color: #f2b92b;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

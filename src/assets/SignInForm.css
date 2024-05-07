@@ -1,0 +1,65 @@
+.right-partition {
+    flex: 1;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.signin-heading {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: black;
+}
+.signin-form {
+    text-align: center;
+}
+.form-input {
+    margin-bottom: 10px;
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.signup-button, .signin-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.signup-button {
+    background-color: white;
+    color: rgb(215, 215, 9);
+    font-weight: bolder;
+    font-size:medium;
+
+}
+.signin-button {
+    background-color: #f2b92b;
+    color: white;
+    font-weight: bolder;
+    font-size:medium;
+
+}
+h1 {
+    color: red;
+}
+.social-icons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.social-icons div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.social-icons i {
+    font-size: 30px;
+    margin-bottom: 5px;
+    color: #007bff;
+    cursor: pointer;
+}

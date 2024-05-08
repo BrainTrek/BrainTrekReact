@@ -23,7 +23,7 @@ const Lander = () => {
       <div className="image">
         <img className='imagein' src="https://st3.depositphotos.com/16959514/32686/v/600/depositphotos_326860374-stock-illustration-people-ask-question-confused-person.jpg" alt="main-img" />
       </div>
-      <img className='design' src="https://i.pinimg.com/736x/01/b6/d2/01b6d278bdc2fb92452736ee6db4f89e.jpg" alt="design image"/>
+      <img className='design' src="https://i.pinimg.com/736x/01/b6/d2/01b6d278bdc2fb92452736ee6db4f89e.jpg" alt="design"/>
       <footer className="footer">
       <div className="footer-content">
         <div className="footer-section">

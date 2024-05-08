@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require("cors");
 const {MongoClient}=require('mongodb');
-const url="mongodb+srv://21pa1a1273:rakibali2233a@cluster0.hivyjuc.mongodb.net/";
+const url="mongodb+srv://21pa1a12a5:Svsp9721@cluster0.n3mmdua.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const app = express();
 app.use(cors());

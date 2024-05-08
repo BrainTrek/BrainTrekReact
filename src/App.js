@@ -17,13 +17,13 @@ function App() {
    
       <Routes>
         <Route path="/" element={<Lander/>}/>
-        <Route path="/SignInForm" element={
+        <Route path="/login" element={
         <div className="container">
         <Header />
         <SignInForm />
         </div>
         } />
-        <Route path="/SignUpForm" element={<SignUpForm />} />
+        <Route path="/SignUp" element={<SignUpForm />} />
         <Route path="/Main" element={<Main/>}/>
       </Routes>
   

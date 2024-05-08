@@ -12,10 +12,9 @@ app.post('/', (req, res) => {
      const client =new  MongoClient(url);
      client.connect()
      .then(async ()=>{
-         const db=client.db("NLP");
-         const collection=db.collection("nlpData");
-         const storage=db.collection("storage");
-         const Insertres=await storage.insertOne({data});
+         const db=client.db("BrainTrek");
+         const collection=db.collection("users");
+         const Insertres=await collection.insertOne({data});
          console.log("Inserted successfully");
          
      })
@@ -30,9 +29,9 @@ app.post('/login', async (req, res) => {
   
   try {
       await client.connect();
-      const db = client.db("NLP");
-      const storage = db.collection("storage");
-      const user = await storage.findOne({ "data.email": email });
+      const db = client.db("BrainTrek");
+      const collection = db.collection("users");
+      const user = await collection.findOne({ "data.email": email });
 
       if (!user) {
           res.status(404).json({ message: "User not found" });

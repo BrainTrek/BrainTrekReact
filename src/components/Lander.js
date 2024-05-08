@@ -18,7 +18,7 @@ const Lander = () => {
       <div className="content">
         <h1><span className="highlighted">Explore, Learn, and <br /><br />Have Fun with our<br /><br />General Knowledge Quizzes</span></h1>
         <p className="small">| We help you prepare for exams and quizzes.</p>
-       <Link to="/SignInForm"> <button className="btn">Start Solving</button></Link>
+       <Link to="/login"> <button className="btn">Start Solving</button></Link>
       </div>
       <div className="image">
         <img className='imagein' src="https://st3.depositphotos.com/16959514/32686/v/600/depositphotos_326860374-stock-illustration-people-ask-question-confused-person.jpg" alt="main-img" />

@@ -16,7 +16,7 @@ function App() {
   return (
    
       <Routes>
-        <Route path="/" element={<Main/>}/>
+        <Route path="/" element={<Lander/>}/>
         <Route path="/SignInForm" element={
         <div className="container">
         <Header />
@@ -24,6 +24,7 @@ function App() {
         </div>
         } />
         <Route path="/SignUpForm" element={<SignUpForm />} />
+        <Route path="/Main" element={<Main/>}/>
       </Routes>
   
      

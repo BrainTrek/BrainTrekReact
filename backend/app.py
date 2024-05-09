@@ -1,99 +1,94 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-from nltk.tokenize import word_tokenize, sent_tokenize
-from nltk.corpus import stopwords
-from nltk.probability import FreqDist
+from dotenv import load_dotenv
+load_dotenv()
 import os
 import cohere
-import nltk
+from cohere.responses.chat import StreamEvent
 import PyPDF2
+import random
+from transformers import pipeline
 
-nltk.download('punkt')
-nltk.download('stopwords')
-
-app = Flask(__name__)  # Corrected line
-CORS(app)  # Enable CORS for the entire Flask application
+app = Flask(__name__)
+CORS(app)
 
 # Set up your Cohere API key
-api_key = os.environ.get("COHERE_API_KEY")
+co = cohere.Client(os.environ.get("COHERE_API_KEY"))
 
+# Define your existing cohere_response_generator function here
+def cohere_response_generator(prompt):
+    # ... (existing code for generating responses)
+    response = "This is a generated response from Cohere AI. How can I assist you further?"
+
+    # You can add more logic or processing here based on your specific needs
+    return response
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# Function to generate a summary and questions for a given text
 def generate_summary_and_questions(text):
-    # Tokenize the text into words
-    words = word_tokenize(text)
+    # Initialize the summarization and question-answering pipelines
+    summarizer = pipeline("summarization")
+    question_answerer = pipeline("question-answering")
 
-    # Remove stop words
-    stop_words = set(stopwords.words('english'))
-    words = [word for word in words if word not in stop_words]
+    # Generate a summary of the text
+    summary = summarizer(text, max_length=100, min_length=30, do_sample=False)[0]['summary_text']
 
-    # Create frequency distribution of words
-    freq_dist = FreqDist(words)
-
-    # Create a list of sentences
-    sentences = sent_tokenize(text)
-
-    # Create a dictionary of sentence scores
-    sentence_scores = {}
-    for i, sentence in enumerate(sentences):
-        for word in word_tokenize(sentence):
-            if word in freq_dist:
-                if len(sentence.split(' ')) < 30:
-                    if sentence not in sentence_scores.keys():
-                        sentence_scores[sentence] = freq_dist[word]
-                    else:
-                        sentence_scores[sentence] += freq_dist[word]
-
-    # Sort the dictionary by score
-    sorted_sentence_scores = sorted(sentence_scores.items(), key=lambda x: x[1], reverse=True)
-
-    # Create a list of sentence tuples
-    sentence_tuples = sorted_sentence_scores[:3]
-
-    # Create a summary
-    summary = ''
-    for sentence in sentence_tuples:
-        summary += " " + sentence[0]
-
-    # Generate questions using Cohere
-    co = cohere.Client(api_key)
-
-    prompt = f"'{summary}' generate some questions and answers on this matter"
-
-    response = co.generate(
-        prompt=prompt,
-        max_tokens=1000
-    )
-    questions = response.generations[0].text.split("\n")
-
-    # Filter out any empty strings
-    questions = [question.strip() for question in questions if question]
+    # Generate a list of questions based on the text
+    questions = []
+    for _ in range(5):
+        question = question_answerer(text=text, question="What is this text about?")['answer']
+        questions.append(question)
 
     return summary, questions
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Function to generate a quiz based on the extracted text
+def generate_quiz(text):
+    summary, questions = generate_summary_and_questions(text)
 
-@app.route('/generate_questions', methods=['POST'])
-def generate_questions():
-    input_type = request.form.get('inputType')
+    # Extract the subject name from the summary
+    subject = summary.split(". ")[0]
 
-    if input_type == 'text':
-        text = request.form.get('text')
-    elif input_type == 'file':
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({"error": "No selected file"})
+    # Generate a list of random questions
+    random_questions = random.choices(questions, k=5)
 
+    quiz = {
+        "subject": subject,
+        "questions": random_questions
+    }
+
+    return quiz
+
+# Route to generate a quiz based on uploaded PDF
+@app.route('/generate_quiz', methods=['POST'])
+def generate_quiz_from_pdf():
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"})
+
+    try:
         pdf_reader = PyPDF2.PdfReader(file)
         text = ''
-        for page_num in range(len(pdf_reader.pages)):
-            page = pdf_reader.pages[page_num]
-            text += page.extract_text()
-    else:
-        return jsonify({"error": "Invalid input type"})
+        for page_num in range(pdf_reader.numPages):
+            page = pdf_reader.getPage(page_num)
+            text += page.extractText()
 
-    summary, questions = generate_summary_and_questions(text)
-    return jsonify({"summary": summary, "questions": questions})
+        quiz = generate_quiz(text)
+        return jsonify(quiz)
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+# Route to generate a quiz based on text input
+@app.route('/generate_quiz_from_text', methods=['POST'])
+def generate_quiz_from_text():
+    text = request.form.get('text')
+    if not text:
+        return jsonify({"error": "No text provided"})
+
+    quiz = generate_quiz(text)
+    return jsonify(quiz)
 
 if __name__ == '__main__':
     app.run(debug=True)
